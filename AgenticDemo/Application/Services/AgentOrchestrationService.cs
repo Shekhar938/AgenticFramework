@@ -1,0 +1,41 @@
+using AgenticDemo.Application.Interfaces;
+using AgenticDemo.Domain.Models;
+using AgenticDemo.MCP;
+using Microsoft.Extensions.Logging;
+using Microsoft.SemanticKernel.Agents;
+
+namespace AgenticDemo.Application.Services;
+
+public sealed class AgentOrchestrationService(
+    IAgentFactory agentFactory,
+    IMcpClientService mcpClientService,
+    ILogger<AgentOrchestrationService> logger) : IAgentOrchestrationService
+{
+    public async Task<AgentRunResponse> RunAsync(AgentRunRequest request, CancellationToken cancellationToken)
+    {
+        var agent = agentFactory.CreatePrimaryAgent();
+
+        logger.LogInformation("Prompt received: {Prompt}", request.Prompt);
+
+        await mcpClientService.RegisterToolsAsync(agent.Kernel, cancellationToken);
+
+        var thread = new ChatHistoryAgentThread();
+        thread.AddUserMessage(request.Prompt);
+
+        var messageLog = new List<string>();
+        await foreach (var response in agent.InvokeAsync(thread, cancellationToken: cancellationToken))
+        {
+            messageLog.Add(response.Message.Content ?? string.Empty);
+        }
+
+        var finalMessage = messageLog.LastOrDefault() ?? "No response generated.";
+
+        logger.LogInformation("Agent completed flow with final response: {Response}", finalMessage);
+
+        return new AgentRunResponse
+        {
+            Result = finalMessage,
+            Steps = messageLog
+        };
+    }
+}
