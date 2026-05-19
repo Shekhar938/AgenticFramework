@@ -1,7 +1,9 @@
-using AgenticDemo.Application.Interfaces;
+using AgenticDemo.Domain.Interfaces;
 using AgenticDemo.Domain.Models;
 using AgenticDemo.MCP;
 using Microsoft.Extensions.Logging;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Agents;
 
 namespace AgenticDemo.Application.Services;
@@ -19,13 +21,13 @@ public sealed class AgentOrchestrationService(
 
         await mcpClientService.RegisterToolsAsync(agent.Kernel, cancellationToken);
 
-        var thread = new ChatHistoryAgentThread();
-        thread.AddUserMessage(request.Prompt);
+        var history = new ChatHistory();
+        history.AddUserMessage(request.Prompt);
 
         var messageLog = new List<string>();
-        await foreach (var response in agent.InvokeAsync(thread, cancellationToken: cancellationToken))
+        await foreach (var response in agent.InvokeAsync(history, cancellationToken: cancellationToken))
         {
-            messageLog.Add(response.Message.Content ?? string.Empty);
+            messageLog.Add(response.Content ?? string.Empty);
         }
 
         var finalMessage = messageLog.LastOrDefault() ?? "No response generated.";

@@ -1,5 +1,5 @@
 using AgenticDemo.Api.Middleware;
-using AgenticDemo.Application.Interfaces;
+using AgenticDemo.Domain.Interfaces;
 using AgenticDemo.Application.Services;
 using AgenticDemo.Infrastructure.AI;
 using AgenticDemo.Infrastructure.Plugins;

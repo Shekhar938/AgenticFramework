@@ -1,6 +1,6 @@
 using Microsoft.SemanticKernel.Agents;
 
-namespace AgenticDemo.Application.Interfaces;
+namespace AgenticDemo.Domain.Interfaces;
 
 public interface IAgentFactory
 {

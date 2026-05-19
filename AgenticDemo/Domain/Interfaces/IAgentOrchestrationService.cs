@@ -1,6 +1,6 @@
 using AgenticDemo.Domain.Models;
 
-namespace AgenticDemo.Application.Interfaces;
+namespace AgenticDemo.Domain.Interfaces;
 
 public interface IAgentOrchestrationService
 {

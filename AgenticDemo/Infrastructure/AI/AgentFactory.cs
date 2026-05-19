@@ -1,4 +1,4 @@
-using AgenticDemo.Application.Interfaces;
+using AgenticDemo.Domain.Interfaces;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Connectors.OpenAI;

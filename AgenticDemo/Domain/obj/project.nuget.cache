@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "H+jb2WnO/vA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\SHEKHARKUMAR\\OneDrive - DevOn India-NL BV\\Desktop\\pROJECTS\\AgenticFramework\\AgenticDemo\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\8.0.0\\microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.1\\microsoft.bcl.hashcode.1.1.1.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.extensions.ai.abstractions\\9.3.0-preview.1.25161.3\\microsoft.extensions.ai.abstractions.9.3.0-preview.1.25161.3.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.1\\microsoft.extensions.dependencyinjection.8.0.1.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.2\\microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.extensions.vectordata.abstractions\\9.0.0-preview.1.25161.1\\microsoft.extensions.vectordata.abstractions.9.0.0-preview.1.25161.1.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.semantickernel.abstractions\\1.45.0\\microsoft.semantickernel.abstractions.1.45.0.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.semantickernel.agents.abstractions\\1.45.0\\microsoft.semantickernel.agents.abstractions.1.45.0.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.semantickernel.agents.core\\1.45.0\\microsoft.semantickernel.agents.core.1.45.0.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.semantickernel.core\\1.45.0\\microsoft.semantickernel.core.1.45.0.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\system.diagnostics.diagnosticsource\\8.0.1\\system.diagnostics.diagnosticsource.8.0.1.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\system.linq.async\\6.0.1\\system.linq.async.6.0.1.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\system.numerics.tensors\\9.0.0\\system.numerics.tensors.9.0.0.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.26\\microsoft.netcore.app.ref.8.0.26.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.26\\microsoft.windowsdesktop.app.ref.8.0.26.nupkg.sha512",
+    "C:\\Users\\SHEKHARKUMAR\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.26\\microsoft.aspnetcore.app.ref.8.0.26.nupkg.sha512"
+  ],
+  "logs": []
+}

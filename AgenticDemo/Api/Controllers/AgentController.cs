@@ -1,4 +1,4 @@
-using AgenticDemo.Application.Interfaces;
+using AgenticDemo.Domain.Interfaces;
 using AgenticDemo.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 

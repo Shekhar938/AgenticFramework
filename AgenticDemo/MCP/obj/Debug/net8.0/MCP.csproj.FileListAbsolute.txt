@@ -1,0 +1,16 @@
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\bin\Debug\net8.0\AgenticDemo.MCP.deps.json
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\bin\Debug\net8.0\AgenticDemo.MCP.dll
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\bin\Debug\net8.0\AgenticDemo.MCP.pdb
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\bin\Debug\net8.0\AgenticDemo.Domain.dll
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\bin\Debug\net8.0\AgenticDemo.Domain.pdb
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\MCP.csproj.AssemblyReference.cache
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\MCP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\MCP.AssemblyInfoInputs.cache
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\MCP.AssemblyInfo.cs
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\MCP.csproj.CoreCompileInputs.cache
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\MCP.sourcelink.json
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\MCP.csproj.Up2Date
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\AgenticDemo.MCP.dll
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\refint\AgenticDemo.MCP.dll
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\AgenticDemo.MCP.pdb
+C:\Users\SHEKHARKUMAR\OneDrive - DevOn India-NL BV\Desktop\pROJECTS\AgenticFramework\AgenticDemo\MCP\obj\Debug\net8.0\ref\AgenticDemo.MCP.dll
