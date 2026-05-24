@@ -2,6 +2,7 @@
   <PropertyGroup>
     <AssemblyName>AgenticDemo.Infrastructure</AssemblyName>
     <RootNamespace>AgenticDemo.Infrastructure</RootNamespace>
+    <NoWarn>$(NoWarn);SKEXP0001;SKEXP0070;SKEXP0110</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +14,6 @@
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.45.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.45.0-preview" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.3" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.45.0-alpha" />
   </ItemGroup>
 </Project>

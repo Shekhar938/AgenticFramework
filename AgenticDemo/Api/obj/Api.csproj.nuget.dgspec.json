@@ -347,6 +347,10 @@
             "Microsoft.SemanticKernel.Agents.Core": {
               "target": "Package",
               "version": "[1.45.0-preview, )"
+            },
+            "Microsoft.SemanticKernel.Connectors.Ollama": {
+              "target": "Package",
+              "version": "[1.45.0-alpha, )"
             }
           },
           "imports": [

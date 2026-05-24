@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgenticFramework | Architecture Overview</title>
+    <style>
+        :root {
+            --primary: #0078d4;
+            --primary-dark: #005a9e;
+            --secondary: #2b88d8;
+            --accent: #00f2fe;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #323130;
+            --text-light: #605e5c;
+            --border: #edebe9;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 { font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1.1rem; color: var(--text-light); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .card h3 { color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        /* Diagram Styles */
+        .diagram-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .workflow-svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .tech-pill {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #f0f4f8;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+            font-weight: 500;
+        }
+
+        ul { list-style: none; }
+        li { margin-bottom: 0.5rem; position: relative; padding-left: 1.2rem; font-size: 0.95rem; }
+        li::before { content: "→"; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+
+        .footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .highlight { color: var(--primary); font-weight: 600; }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="badge">Architecture V1.0</span>
+        <h1>AgenticFramework</h1>
+        <p class="subtitle">Autonomous AI Ecosystem built with Semantic Kernel & MCP</p>
+    </header>
+
+    <!-- The Diagram -->
+    <section class="diagram-container">
+        <h2 style="margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--text-light); text-transform: uppercase;">System Architecture & Data Flow</h2>
+        <svg class="workflow-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+            <!-- Defs for arrows -->
+            <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 z" fill="#0078d4" />
+                </marker>
+            </defs>
+
+            <!-- Layers -->
+            <rect x="10" y="50" width="160" height="300" rx="10" fill="#f0f4f8" stroke="#0078d4" stroke-width="2" />
+            <text x="90" y="30" text-anchor="middle" font-weight="bold" fill="#0078d4">UI LAYER</text>
+            <text x="90" y="200" text-anchor="middle" font-size="14">Angular 21</text>
+            <text x="90" y="220" text-anchor="middle" font-size="12" fill="#666">Reactive Chat UI</text>
+
+            <line x1="170" y1="200" x2="230" y2="200" stroke="#0078d4" stroke-width="2" marker-end="url(#arrow)" />
+
+            <rect x="240" y="50" width="320" height="300" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" />
+            <text x="400" y="30" text-anchor="middle" font-weight="bold" fill="#4f46e5">AGENT CORE (.NET 8)</text>
+            
+            <!-- Internal Blocks -->
+            <rect x="260" y="80" width="280" height="60" rx="5" fill="#fff" stroke="#4f46e5" stroke-dasharray="4" />
+            <text x="400" y="115" text-anchor="middle" font-size="14" font-weight="bold">Semantic Kernel Orchestrator</text>
+
+            <rect x="260" y="160" width="130" height="60" rx="5" fill="#fff" stroke="#4f46e5" />
+            <text x="325" y="195" text-anchor="middle" font-size="12">Local Plugins</text>
+            
+            <rect x="410" y="160" width="130" height="60" rx="5" fill="#fff" stroke="#4f46e5" />
+            <text x="475" y="195" text-anchor="middle" font-size="12">MCP Client</text>
+
+            <rect x="260" y="240" width="280" height="80" rx="5" fill="#4f46e5" />
+            <text x="400" y="285" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">ChatCompletionAgent</text>
+
+            <!-- External Integrations -->
+            <line x1="560" y1="200" x2="620" y2="150" stroke="#666" stroke-width="2" marker-end="url(#arrow)" />
+            <line x1="560" y1="200" x2="620" y2="250" stroke="#666" stroke-width="2" marker-end="url(#arrow)" />
+
+            <rect x="630" y="100" width="150" height="80" rx="10" fill="#fff" stroke="#10b981" stroke-width="2" />
+            <text x="705" y="135" text-anchor="middle" font-size="14" font-weight="bold">LLM Provider</text>
+            <text x="705" y="155" text-anchor="middle" font-size="10" fill="#666">Azure OpenAI / OpenAI</text>
+
+            <rect x="630" y="220" width="150" height="80" rx="10" fill="#fff" stroke="#f59e0b" stroke-width="2" />
+            <text x="705" y="255" text-anchor="middle" font-size="14" font-weight="bold">MCP Servers</text>
+            <text x="705" y="275" text-anchor="middle" font-size="10" fill="#666">External Tools (Dynamic)</text>
+        </svg>
+    </section>
+
+    <div class="grid">
+        <!-- Tech Stack -->
+        <div class="card">
+            <h3>🚀 Modern Tech Stack</h3>
+            <p style="margin-bottom: 1rem;">Built using the latest enterprise standards for AI and Web.</p>
+            <div>
+                <span class="tech-pill">.NET 8</span>
+                <span class="tech-pill">Semantic Kernel</span>
+                <span class="tech-pill">Angular 21</span>
+                <span class="tech-pill">MCP Protocol</span>
+                <span class="tech-pill">Azure OpenAI</span>
+                <span class="tech-pill">Bootstrap 5</span>
+                <span class="tech-pill">TypeScript</span>
+            </div>
+        </div>
+
+        <!-- Agentic Flow -->
+        <div class="card">
+            <h3>🧠 Agentic Workflow</h3>
+            <ul>
+                <li><span class="highlight">Ingestion:</span> Dynamic discovery of MCP tools at runtime.</li>
+                <li><span class="highlight">Reasoning:</span> Agent analyzes prompt & history.</li>
+                <li><span class="highlight">Planning:</span> Autonomous selection of tools (Local/MCP).</li>
+                <li><span class="highlight">Execution:</span> Iterative tool calling & state tracking.</li>
+            </ul>
+        </div>
+
+        <!-- Key Features -->
+        <div class="card">
+            <h3>✨ Key Features</h3>
+            <ul>
+                <li><span class="highlight">Zero-Config Scaling:</span> Add tools via MCP without code changes.</li>
+                <li><span class="highlight">Observability:</span> Real-time reasoning steps shown in UI.</li>
+                <li><span class="highlight">Clean Architecture:</span> Modular, testable, and production-ready.</li>
+                <li><span class="highlight">Hybrid Tools:</span> Mix local plugins with external protocols.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- The "Why" Section -->
+    <div class="card" style="text-align: center; background: linear-gradient(135deg, #0078d4, #00f2fe); color: white; border: none;">
+        <h3 style="color: white; justify-content: center;">Why this Architecture?</h3>
+        <p style="max-width: 800px; margin: 0 auto;">
+            Unlike traditional chatbots, this <strong>AgenticFramework</strong> separates the <i>Reasoning Engine</i> from the <i>Capability Layer</i>. 
+            By leveraging <strong>Semantic Kernel</strong> as the orchestrator and <strong>MCP</strong> as the universal interface for tools, 
+            the application becomes an extensible platform that can adapt to any business process dynamically.
+        </p>
+    </div>
+
+    <footer class="footer">
+        <p>AgenticFramework Documentation &copy; 2026</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Designed for performance, extensibility, and modern AI orchestration.</p>
+    </footer>
+</div>
+
+</body>
+</html>

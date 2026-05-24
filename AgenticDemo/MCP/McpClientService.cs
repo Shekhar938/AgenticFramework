@@ -18,45 +18,70 @@ public sealed class McpClientService(
 {
     public async Task RegisterToolsAsync(Kernel kernel, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(options.Value.BaseUrl))
+        var rawUrl = options.Value.BaseUrl;
+        if (string.IsNullOrWhiteSpace(rawUrl))
         {
             logger.LogDebug("MCP base URL not configured. Skipping external tool registration.");
             return;
         }
 
-        var baseUrl = options.Value.BaseUrl.TrimEnd('/');
-        var listUrl = $"{baseUrl}/tools";
+        logger.LogInformation("Attempting to connect to MCP: {Url}", rawUrl);
 
-        IReadOnlyList<McpToolDescriptor>? tools;
+        // For direct remote MCP links like Tavily's, we might need specific handling
+        // But for now, we follow the bridge pattern. If it's a direct URL, we adjust.
+        var baseUrl = rawUrl.Contains("?") ? rawUrl.Split('?')[0].TrimEnd('/') : rawUrl.TrimEnd('/');
+        var listUrl = rawUrl.Contains("?") ? rawUrl : $"{baseUrl}/tools";
+
         try
         {
-            tools = await httpClient.GetFromJsonAsync<IReadOnlyList<McpToolDescriptor>>(listUrl, cancellationToken);
+            // First try the bridge pattern (tools endpoint)
+            var response = await httpClient.GetAsync(listUrl, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                 logger.LogWarning("MCP tools listing failed with status {Status}", response.StatusCode);
+                 return;
+            }
+
+            var tools = await response.Content.ReadFromJsonAsync<IReadOnlyList<McpToolDescriptor>>(cancellationToken: cancellationToken);
+
+            if (tools is null || tools.Count == 0)
+            {
+                logger.LogInformation("MCP returned no tools.");
+                return;
+            }
+
+            foreach (var tool in tools)
+            {
+                logger.LogInformation("Registering MCP Tool: {Name}", tool.Name);
+                
+                kernel.Plugins.AddFromFunctions("ExternalTools", new[] {
+                    KernelFunctionFactory.CreateFromMethod(
+                        method: (string input) => InvokeToolAsync(baseUrl, tool.Name, input, cancellationToken),
+                        functionName: tool.Name,
+                        description: tool.Description ?? "External MCP tool")
+                });
+            }
+            
+            logger.LogInformation("Successfully registered {Count} MCP tools.", tools.Count);
         }
         catch (Exception ex)
         {
             logger.LogWarning(ex, "Unable to load MCP tools from {ListUrl}", listUrl);
-            return;
         }
-
-        if (tools is null || tools.Count == 0)
-        {
-            logger.LogInformation("MCP returned no tools.");
-            return;
-        }
-
-        var functions = tools.Select(tool => KernelFunctionFactory.CreateFromMethod(
-            method: (string input) => InvokeToolAsync(baseUrl, tool.Name, input, cancellationToken),
-            functionName: tool.Name,
-            description: tool.Description ?? "External MCP tool"));
-
-        kernel.Plugins.AddFromFunctions("ExternalTools", functions);
-        logger.LogInformation("Registered {Count} MCP tools.", tools.Count);
     }
 
     private async Task<string> InvokeToolAsync(string baseUrl, string toolName, string input, CancellationToken cancellationToken)
     {
         var payload = new McpToolInvokeRequest { ToolName = toolName, Input = input };
-        var response = await httpClient.PostAsJsonAsync($"{baseUrl}/invoke", payload, cancellationToken);
+        
+        // Note: For remote MCP, the invoke URL might also need the API key from the query string
+        var invokeUrl = options.Value.BaseUrl?.Contains("?") == true 
+            ? options.Value.BaseUrl.Replace("?", "invoke?") // Rough approximation
+            : $"{baseUrl}/invoke";
+
+        logger.LogInformation("Invoking MCP tool {Tool} at {Url}", toolName, invokeUrl);
+
+        var response = await httpClient.PostAsJsonAsync(invokeUrl, payload, cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {

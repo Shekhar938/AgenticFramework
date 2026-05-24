@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgenticFramework | The Master Engineering Blueprint</title>
+    <style>
+        :root {
+            --bg: #030305;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --accent: #22d3ee;
+            --accent-glow: rgba(34, 211, 238, 0.4);
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: var(--bg);
+            overflow: hidden;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--primary-glow) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, var(--accent-glow) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+            filter: blur(80px);
+            animation: nebula-flow 25s infinite alternate ease-in-out;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 100px 100px;
+            animation: particles-drift 60s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes nebula-flow {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(-5%, 5%) scale(1.1) rotate(2deg); }
+            66% { transform: translate(5%, -5%) scale(0.9) rotate(-2deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        }
+
+        @keyframes particles-drift {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            padding: 5vh 5vw 12vh 5vw; /* Increase bottom padding to prevent overlap with nav buttons */
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateY(20px);
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 { 
+            font-size: clamp(2.2rem, 5vw, 4rem); 
+            font-weight: 950; 
+            background: linear-gradient(to bottom, #fff 40%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2vh;
+            letter-spacing: -0.05em;
+            line-height: 1.1;
+        }
+
+        h3 { 
+            color: var(--accent); 
+            font-size: clamp(0.8rem, 1.1vw, 1rem); 
+            text-transform: uppercase; 
+            letter-spacing: 0.6em;
+            margin-bottom: 1.5vh;
+            font-weight: 800;
+            opacity: 0.8;
+        }
+
+        p { 
+            font-size: clamp(1rem, 1.4vw, 1.3rem); 
+            color: var(--text-dim); 
+            line-height: 1.6;
+            margin-bottom: 3vh;
+            max-width: 950px;
+        }
+
+        .feature-list { 
+            list-style: none; 
+            text-align: center;
+            margin: 2vh 0;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4vh;
+        }
+
+        .feature-list li { 
+            font-size: clamp(1rem, 1.4vw, 1.4rem); 
+            margin-bottom: 0; 
+            padding: 0; 
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default;
+            max-width: 850px;
+        }
+
+        .feature-list li:hover {
+            transform: scale(1.08);
+            color: #fff;
+            text-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .feature-list li strong { color: var(--accent); font-weight: 950; display: block; margin-bottom: 0.5vh; font-size: 1.1em; transition: all 0.3s; }
+        .feature-list li:hover strong { color: #fff; text-shadow: 0 0 15px var(--accent); }
+
+        .feature-list li::before {
+            content: '';
+            display: block;
+            margin: 0 auto 1.5vh auto;
+            width: 2.5rem; height: 2.5rem;
+            background: var(--accent);
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center;
+            transition: all 0.4s;
+        }
+
+        .feature-list li:hover::before {
+            background: #fff;
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 12px var(--accent));
+        }
+
+        .feature-list li:hover::before {
+            background: #fff;
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 8px var(--accent));
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3vh;
+        }
+
+        .tech-tag {
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-weight: 850;
+            color: #fff;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .tech-tag:hover {
+            background: var(--primary);
+            box-shadow: 0 0 40px var(--primary-glow);
+            transform: translateY(-8px) scale(1.1);
+            border-color: transparent;
+        }
+
+        .learning-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 2.5rem;
+            border-radius: 32px;
+            margin: 4vh 0;
+            max-width: 900px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .learning-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent);
+            transform: scale(1.03);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .learning-card h4 { color: var(--accent); margin-bottom: 1rem; font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.3em; transition: all 0.3s; }
+        .learning-card:hover h4 { color: #fff; text-shadow: 0 0 15px var(--accent); }
+        .learning-card p { font-size: 1.1rem; margin-bottom: 0; color: var(--text); line-height: 1.5; }
+
+        .code-block {
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #818cf8;
+            padding: 2.5rem;
+            border-radius: 32px;
+            font-family: 'Fira Code', monospace;
+            font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+            line-height: 1.5;
+            width: 100%;
+            max-width: 950px;
+            text-align: left;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 5vh;
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+            z-index: 100;
+        }
+
+        button {
+            padding: 1.4rem 5rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 100px;
+            background: rgba(255,255,255,0.03);
+            color: white;
+            font-weight: 950;
+            cursor: pointer;
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--primary);
+            border-color: transparent;
+            box-shadow: 0 0 80px var(--primary-glow);
+            transform: scale(1.05);
+        }
+
+        .slide-number { 
+            color: var(--text-dim); 
+            font-weight: 900; 
+            letter-spacing: 0.8em;
+            font-size: 1.1rem;
+            opacity: 0.6;
+        }
+
+        .diagram-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 4vh 0;
+            filter: drop-shadow(0 0 30px rgba(0,0,0,0.5));
+        }
+
+        .step-grid {
+            display: flex;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 4vh;
+        }
+
+        .step-box {
+            background: rgba(255,255,255,0.015);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 40px;
+            padding: 2.5rem 1.5rem;
+            flex: 1;
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .step-box:hover {
+            transform: translateY(-15px) scale(1.02);
+            background: rgba(255,255,255,0.04);
+            border-color: var(--accent);
+        }
+        .step-icon { font-size: 3.5rem; margin-bottom: 2rem; display: block; }
+        .step-box h4 { font-weight: 950; color: #fff; margin-bottom: 0.8rem; letter-spacing: 0.2em; font-size: 1.1rem; }
+        .step-box p { font-size: 0.95rem; margin: 0; opacity: 0.7; line-height: 1.4; }
+
+        @media (max-width: 1024px) {
+            .step-grid { flex-direction: column; align-items: center; }
+            .step-box { width: 100%; max-width: 600px; }
+            .nav-controls { gap: 1.5rem; bottom: 3vh; }
+            button { padding: 1.2rem 3rem; font-size: 0.8rem; }
+        }
+
+        /* Technical Content Grid */
+        .tech-content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1300px;
+            text-align: left;
+            margin-top: 2vh;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .tech-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+            padding-bottom: 0.5rem;
+        }
+
+        .tech-card ul {
+            list-style: none;
+            color: var(--text-dim);
+        }
+
+        .tech-card li {
+            margin-bottom: 0.4rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .tech-card li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .mini-code {
+            background: rgba(0,0,0,0.5);
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: #818cf8;
+            margin-top: 0.5rem;
+            overflow-x: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow">
+        <div class="nebula"></div>
+        <div class="particles"></div>
+    </div>
+
+    <div class="presentation-container" id="presentation">
+        
+        <!-- 1. Title -->
+        <div class="slide active">
+            <div class="content-wrapper">
+                <h3>Engineering Autonomous Enterprise Systems</h3>
+                <h2>AgenticFramework</h2>
+                <p>The Master Architectural Blueprint for Intelligent Tool Orchestration</p>
+                <div style="margin-top: 8vh; opacity: 1; font-size: 1.6rem; letter-spacing: 0.8em; font-weight: 950; color: #fff; text-transform: uppercase; text-shadow: 0 0 20px var(--accent);">by SHEKHAR KUMAR</div>
+            </div>
+        </div>
+
+        <!-- 2. The Core Shift -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>The Paradigmatic Evolution</h3>
+                <h2>Beyond Sequential Coding</h2>
+                <p>Building <strong>Agents</strong> means moving from <i>Imperative Scripts</i> to <i>Goal-Oriented Intent</i>. We define the capabilities; the AI defines the path.</p>
+                <ul class="feature-list" style="gap: 2vh;">
+                    <li><strong>Autonomous Sequencing:</strong> The AI model dynamically determines tool order and parameters based on real-time state.</li>
+                    <li><strong>Emergent Intelligence:</strong> Decoupling tools from flow allows solving problems never explicitly programmed.</li>
+                    <li><strong>Closed-Loop Execution:</strong> The framework observes results and re-plans, enabling autonomous self-healing.</li>
+                </ul>
+                <div class="learning-card" style="padding: 2rem; margin: 2vh 0;">
+                    <h4>Architectural Rationale</h4>
+                    <p>conventional software breaks at ambiguity. Agents use <strong>Reasoning Loops</strong> to navigate non-deterministic environments.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Full-Stack Ecosystem -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>The Multi-Tiered Engine</h3>
+                <h2>A Modern Enterprise Stack</h2>
+                <p>A unified foundation engineered for high-concurrency, reactive state management, and enterprise-grade security guardrails.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">.NET 8 CORE API</span>
+                    <span class="tech-tag">SEMANTIC KERNEL SDK</span>
+                    <span class="tech-tag">ANGULAR 21 SIGNALS</span>
+                    <span class="tech-tag">MCP PROTOCOL V1</span>
+                    <span class="tech-tag">AZURE OPENAI GPT-4o</span>
+                </div>
+                <div class="step-grid">
+                    <div class="step-box">
+                        <span class="step-icon">🛡️</span>
+                        <h4>BACKEND</h4>
+                        <p>Provides the <strong>Trusted Execution Environment</strong> for high-privileged tool calls and security middleware.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">⚙️</span>
+                        <h4>CORE</h4>
+                        <p>Leverages <strong>Semantic Kernel</strong> to map natural language intent into valid, executable code-plugin chains.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">📱</span>
+                        <h4>FRONTEND</h4>
+                        <p>A reactive <strong>Heads-Up Display</strong> using Angular Signals to stream real-time reasoning steps and tool logs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Kernel Configuration -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>Implementation: The Intelligence Hub</h3>
+                <h2>Configuring the Reasoning Kernel</h2>
+                <p>The <strong>Kernel</strong> is the orchestrator's central nervous system. It manages model connections, plugin registries, and global state.</p>
+                <div class="code-block">
+// 1. Setup the Orchestrator with AI Provider
+var kernel = Kernel.CreateBuilder()
+    .AddAzureOpenAIChatCompletion("deployment", "endpoint", "key")
+    .Build();
+
+// 2. Ingest Business Logic as Callable Plugins
+// Description metadata is CRITICAL here—it tells the AI *why* to use this tool.
+kernel.Plugins.AddFromObject(new CloudInfrastructurePlugin(), "CloudTools");
+kernel.Plugins.AddFromObject(new DatabaseConnector(), "DataTools");
+                </div>
+                <ul class="feature-list" style="margin-top: 3vh;">
+                    <li><strong>Plugin Metadata:</strong> Every method parameter must be documented for the LLM to generate correct JSON arguments.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5. Plugin Ecosystem -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>Semantic Kernel Plugins</h3>
+                <h2>The Actor's Toolkit</h2>
+                <p>Plugins are reusable capabilities that allow AI to perform actions. They bridge the gap between <strong>Reasoning</strong> and <strong>Execution</strong>.</p>
+                <div class="step-grid">
+                    <div class="step-box">
+                        <span class="step-icon">💻</span>
+                        <h4>CODE & CORE</h4>
+                        <p><strong>Native Plugins</strong> in C# and built-in <strong>Core Plugins</strong> (Math, Time, HTTP).</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">🤖</span>
+                        <h4>AI & PROMPTS</h4>
+                        <p><strong>Semantic Functions</strong> (Prompts) and <strong>Agent Plugins</strong> for task orchestration.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">🌐</span>
+                        <h4>CONNECTIVITY</h4>
+                        <p><strong>OpenAPI</strong> for REST services and <strong>MCP</strong> for dynamic cross-system tool ingestion.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">💾</span>
+                        <h4>DATA & RAG</h4>
+                        <p><strong>Memory Plugins</strong> for Vector DBs and <strong>Document Plugins</strong> for file parsing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Deep Dive: Plugin Architecture -->
+        <div class="slide">
+            <div class="content-wrapper" style="padding-top: 0;">
+                <h3 style="margin-bottom: 0.5vh;">Deep Dive: Plugin Architecture</h3>
+                <div class="tech-content-grid">
+                    <!-- 1. Native & Core -->
+                    <div class="tech-card">
+                        <h4>1 & 2. Native & Built-in</h4>
+                        <ul>
+                            <li><strong>Native:</strong> Custom C#/Python logic (Weather, DB, Files).</li>
+                            <li><strong>Core:</strong> Math, Text, Time, Http, FileIO.</li>
+                        </ul>
+                        <div class="mini-code">
+[KernelFunction]
+public string GetWeather(string city) => "Sunny";
+                        </div>
+                    </div>
+                    <!-- 3. Prompt Plugins -->
+                    <div class="tech-card">
+                        <h4>3. Prompt Plugins</h4>
+                        <ul>
+                            <li>AI-based "Semantic Functions".</li>
+                            <li>Summarization, Translation, SQL Gen.</li>
+                            <li>Defined via <i>skprompt.txt</i> & <i>config.json</i>.</li>
+                        </ul>
+                    </div>
+                    <!-- 4. OpenAPI Plugins -->
+                    <div class="tech-card">
+                        <h4>4. OpenAPI Plugins</h4>
+                        <ul>
+                            <li>Auto-import REST APIs (Swagger).</li>
+                            <li>GitHub, Jira, Salesforce, ServiceNow.</li>
+                            <li>LLM calls APIs like native tools.</li>
+                        </ul>
+                    </div>
+                    <!-- 5. MCP Plugins -->
+                    <div class="tech-card">
+                        <h4>5. MCP (Model Context)</h4>
+                        <ul>
+                            <li>Connect dynamically to IDEs & DBs.</li>
+                            <li>External services & Retrieval systems.</li>
+                            <li>Popular: GitHub, Filesystem, Postgres.</li>
+                        </ul>
+                    </div>
+                    <!-- 6 & 7. Memory & Document -->
+                    <div class="tech-card">
+                        <h4>6 & 7. Data & Docs</h4>
+                        <ul>
+                            <li><strong>Memory:</strong> Vector search (Pinecone, Chroma).</li>
+                            <li><strong>Docs:</strong> PDF, Office, Extraction.</li>
+                        </ul>
+                    </div>
+                    <!-- 8 & 9. Search & Agents -->
+                    <div class="tech-card">
+                        <h4>8 & 9. Search & Agents</h4>
+                        <ul>
+                            <li><strong>Search:</strong> Enterprise & Knowledge search.</li>
+                            <li><strong>Agents:</strong> Multi-agent coordination & planning.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tech-tags" style="margin-top: 2vh; gap: 0.5rem; scale: 0.8;">
+                    <span class="tech-tag" style="padding: 0.4rem 1rem;">EMAIL</span>
+                    <span class="tech-tag" style="padding: 0.4rem 1rem;">SLACK/TEAMS</span>
+                    <span class="tech-tag" style="padding: 0.4rem 1rem;">CALENDAR</span>
+                    <span class="tech-tag" style="padding: 0.4rem 1rem;">DEVOPS</span>
+                    <span class="tech-tag" style="padding: 0.4rem 1rem;">AI RAG</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Autonomous Behavior -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>Directing Autonomous Logic</h3>
+                <h2>ChatCompletionAgent Behavior</h2>
+                <p>Building an agent isn't just about the LLM; it's about the <strong>Policy</strong> that governs how it uses tools.</p>
+                <div class="code-block">
+var agent = new ChatCompletionAgent {
+    Instructions = "You are an autonomous SRE. Use diagnostic tools to resolve issues.",
+    Kernel = kernel,
+    Arguments = new KernelArguments(new PromptExecutionSettings { 
+        // Behavior.Auto enables the agent to enter the loop autonomously
+        FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() 
+    })
+};
+                </div>
+                <div class="learning-card">
+                    <h4>Learning: Directive Granularity</h4>
+                    <p>Generic agents "hallucinate". We found that <strong>Specialized Sub-Agents</strong> with atomic instructions (e.g. one for "Diagnosis", one for "Repair") provide 2x higher accuracy.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Model Context Protocol -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>Runtime Scalability</h3>
+                <h2>Universal Connectivity via MCP</h2>
+                <p><strong>MCP</strong> decouples agents from tools, enabling infinite capability expansion without code deployments.</p>
+                <ul class="feature-list" style="gap: 2vh;">
+                    <li><strong>Dynamic Capability Ingestion:</strong> The Kernel registers MCP tool schemas at runtime as native functions.</li>
+                    <li><strong>Language Agnostic:</strong> Connect to MCP servers in any language via a pure .NET orchestrator.</li>
+                    <li><strong>Stateless Bridges:</strong> Acting logic stays on the edge; reasoning stays central in the Core Agent.</li>
+                </ul>
+                <div style="font-size: 6rem; margin-top: 1vh; filter: drop-shadow(0 0 20px var(--accent-glow));">🔌</div>
+            </div>
+        </div>
+
+        <!-- 9. Full-Stack Visual Topology -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>Architectural Overview</h3>
+                <h2>System Topology & Data Flow</h2>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+                        <rect x="50" y="80" width="160" height="200" rx="30" fill="rgba(255,255,255,0.03)" stroke="var(--accent)" stroke-width="2" />
+                        <text x="130" y="185" text-anchor="middle" fill="#fff" font-weight="900">REACTIVE HUD</text>
+                        
+                        <path d="M210 180 H280" stroke="var(--primary)" stroke-width="3" fill="none" />
+                        
+                        <rect x="290" y="40" width="220" height="280" rx="30" fill="rgba(99, 102, 241, 0.05)" stroke="var(--primary)" stroke-width="2" />
+                        <text x="400" y="80" text-anchor="middle" fill="var(--primary)" font-weight="900">CORE AGENT ENGINE</text>
+                        
+                        <rect x="310" y="110" width="180" height="170" rx="20" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.1)" />
+                        <text x="400" y="180" text-anchor="middle" fill="#fff" font-size="12">Semantic Kernel</text>
+                        <text x="400" y="220" text-anchor="middle" fill="var(--accent)" font-weight="950">Orchestrator</text>
+
+                        <path d="M510 140 Q580 100 600 100" stroke="var(--accent)" stroke-width="2" fill="none" />
+                        <path d="M510 230 Q580 270 600 270" stroke="var(--primary)" stroke-width="2" fill="none" />
+
+                        <rect x="610" y="60" width="130" height="80" rx="20" fill="rgba(16, 185, 129, 0.08)" stroke="#10b981" />
+                        <text x="675" y="105" text-anchor="middle" fill="#fff" font-size="12">LLM (Reason)</text>
+
+                        <rect x="610" y="230" width="130" height="80" rx="20" fill="rgba(245, 158, 11, 0.08)" stroke="#f59e0b" />
+                        <text x="675" y="275" text-anchor="middle" fill="#fff" font-size="12">TOOLS (Act)</text>
+                    </svg>
+                </div>
+                <p style="font-size: 1rem; opacity: 0.5;">The Core Engine acts as the secure air-gap between raw LLM intelligence and enterprise infrastructure.</p>
+            </div>
+        </div>
+
+        <!-- 10. Detailed Reasoning Loop -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>The Inner Logic Cycle</h3>
+                <h2>The Reasoning Loop (ReAct)</h2>
+                <div class="diagram-container">
+                    <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+                        <circle cx="450" cy="200" r="140" fill="none" stroke="rgba(99, 102, 241, 0.2)" stroke-width="50" stroke-dasharray="20 10" />
+                        <g transform="translate(450, 40)"><rect x="-100" y="-30" width="200" height="60" rx="15" fill="#000" stroke="var(--accent)" stroke-width="2" /><text x="0" y="5" text-anchor="middle" fill="#fff" font-weight="900" font-size="12">PLAN: Select Strategy</text></g>
+                        <g transform="translate(740, 200)"><rect x="-100" y="-30" width="200" height="60" rx="15" fill="#000" stroke="var(--primary)" stroke-width="2" /><text x="0" y="5" text-anchor="middle" fill="#fff" font-weight="900" font-size="12">ACT: Execute Plugin</text></g>
+                        <g transform="translate(450, 360)"><rect x="-100" y="-30" width="200" height="60" rx="15" fill="#000" stroke="#10b981" stroke-width="2" /><text x="0" y="5" text-anchor="middle" fill="#fff" font-weight="900" font-size="12">OBSERVE: Parse Output</text></g>
+                        <g transform="translate(160, 200)"><rect x="-100" y="-30" width="200" height="60" rx="15" fill="#000" stroke="#f59e0b" stroke-width="2" /><text x="0" y="5" text-anchor="middle" fill="#fff" font-weight="900" font-size="12">UPDATE: Append State</text></g>
+                        <text x="450" y="210" text-anchor="middle" fill="#fff" font-weight="950" font-size="32">AUTONOMOUS LOOP</text>
+                    </svg>
+                </div>
+                <p style="font-size: 1.1rem; opacity: 0.8;">Iterative Thought, Action, and Observation cycles continue until the goal is reached.</p>
+            </div>
+        </div>
+
+        <!-- 11. Retrospective: Schema Engineering -->
+        <div class="slide">
+            <div class="content-wrapper" style="gap: 1vh;">
+                <h3>Engineering Retrospectives</h3>
+                <h2>Learning: Schema Precision</h2>
+                <p>Model reasoning depends on tool definitions. We use <strong>Type-Strict</strong> schemas to eliminate execution errors.</p>
+                <ul class="feature-list" style="gap: 1.5vh; margin: 1vh 0;">
+                    <li><strong>Semantic Clashes:</strong> Avoid tools with overlapping descriptions to prevent 50% model mis-selection.</li>
+                    <li><strong>Self-Healing:</strong> Feeding tool <i>Stack Traces</i> into the loop allows the LLM to fix its own bugs.</li>
+                    <li><strong>Registry:</strong> Centralize tool definitions for consistency across the agent ecosystem.</li>
+                </ul>
+                <div class="learning-card" style="padding: 1.5rem; margin: 1vh 0;">
+                    <h4>The Precision Rule</h4>
+                    <p>A 1% increase in tool description precision leads to a 20% reduction in agentic loop failures.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. Performance Tuning -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>High-Velocity Architectures</h3>
+                <h2>Learning: Latency & UX</h2>
+                <p>Autonomous loops are slow. We implemented a <strong>Performance-First</strong> strategy to maintain user trust and engagement.</p>
+                <div class="tech-tags">
+                    <span class="tech-tag">INCREMENTAL STREAMING</span>
+                    <span class="tech-tag">VECTOR-CACHE BYPASS</span>
+                    <span class="tech-tag">AGGRESSIVE CONTEXT PRUNING</span>
+                </div>
+                <div style="background: rgba(34, 211, 238, 0.05); padding: 4rem; border-radius: 50px; text-align: center; margin-top: 4vh; border: 1px solid var(--accent-glow);">
+                    <div style="font-size: 5rem; font-weight: 950; color: var(--accent);">-65%</div>
+                    <p style="margin: 0; font-weight: 900; letter-spacing: 0.4em; color: #fff;">LATENCY REDUCTION</p>
+                </div>
+                <p style="margin-top: 3vh; font-size: 1rem; opacity: 0.6;">Achieved by parallelizing tool discovery and using <strong>Angular Signals</strong> for O-latency UI updates.</p>
+            </div>
+        </div>
+
+        <!-- 13. Governance & Trust -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>Enterprise Security</h3>
+                <h2>Governance & Control Guardrails</h2>
+                <p>Granting autonomy requires a <strong>Tiered Trust Architecture</strong>. We treat the LLM as a "Untrusted User" with restricted tool access.</p>
+                <div class="step-grid">
+                    <div class="step-box">
+                        <span class="step-icon">🛂</span>
+                        <h4>TIER 1: APPROVAL</h4>
+                        <p>Any <strong>Data Mutation</strong> (Write/Delete) creates a UI block requiring explicit manual human confirmation.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">📜</span>
+                        <h4>TIER 2: AUDIT</h4>
+                        <p>Every internal thought and external tool call is logged to an <strong>Immutable Data Store</strong> for compliance.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">🧼</span>
+                        <h4>TIER 3: SANITIZE</h4>
+                        <p>A <strong>Middleware Layer</strong> automatically scrubs PII and sensitive data before it ever reaches the LLM context.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. Implementation Roadmap -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h3>The Final Blueprint</h3>
+                <h2>Building Your First Agent</h2>
+                <p>Follow this 4-pillar roadmap to implement the AgenticFramework in your organization.</p>
+                <div class="step-grid">
+                    <div class="step-box">
+                        <span class="step-icon">🏗️</span>
+                        <h4>1. SETUP CORE</h4>
+                        <p>Deploy .NET 8 API and initialize the <strong>Semantic Kernel</strong> with your AI provider of choice.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">🔌</span>
+                        <h4>2. MAP TOOLS</h4>
+                        <p>Expose legacy APIs and DBs via <strong>C# Plugins</strong> or <strong>MCP Dynamic Bridges</strong>.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">🧠</span>
+                        <h4>3. CONSTRAIN</h4>
+                        <p>Set specific <strong>System Personas</strong> and configure autonomous loop behavior.</p>
+                    </div>
+                    <div class="step-box">
+                        <span class="step-icon">📺</span>
+                        <h4>4. STREAM HUD</h4>
+                        <p>Build a reactive frontend to visualize the <strong>Reasoning Steps</strong> for end-user transparency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. Future Vision -->
+        <div class="slide">
+            <div class="content-wrapper">
+                <h2>The Future is Agentic</h2>
+                <p style="max-width: 900px; font-size: 1.6rem; opacity: 0.9;">We have moved from building software that <i>follows</i> instructions to software that <i>understands</i> objectives.</p>
+                <div style="display: flex; gap: 6rem; margin-top: 8vh; font-weight: 950; letter-spacing: 0.5em; opacity: 0.8;">
+                    <div>MODULAR</div>
+                    <div>SECURE</div>
+                    <div>AUTONOMOUS</div>
+                </div>
+                <h3 style="margin-top: 12vh; color: var(--primary); letter-spacing: 1.2em;">READY TO ORCHESTRATE?</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="nav-controls">
+        <button id="prevBtn" disabled>← PREV</button>
+        <div class="slide-number"><span id="currentSlide">01</span> / 15</div>
+        <button id="nextBtn">NEXT →</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentSlideTag = document.getElementById('currentSlide');
+        let currentIndex = 0;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentIndex) {
+                    slide.classList.add('active');
+                }
+            });
+
+            currentSlideTag.innerText = (currentIndex + 1).toString().padStart(2, '0');
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === slides.length - 1;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < slides.length - 1) {
+                currentIndex++;
+                updateSlides();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlides();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
