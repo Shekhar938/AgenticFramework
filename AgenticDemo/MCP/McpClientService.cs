@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Net.Http.Json;
 using AgenticDemo.Domain.Models;
 using Microsoft.Extensions.Logging;
@@ -50,17 +51,18 @@ public sealed class McpClientService(
                 return;
             }
 
+            var functions = new List<KernelFunction>();
             foreach (var tool in tools)
             {
                 logger.LogInformation("Registering MCP Tool: {Name}", tool.Name);
                 
-                kernel.Plugins.AddFromFunctions("ExternalTools", new[] {
-                    KernelFunctionFactory.CreateFromMethod(
-                        method: (string input) => InvokeToolAsync(baseUrl, tool.Name, input, cancellationToken),
-                        functionName: tool.Name,
-                        description: tool.Description ?? "External MCP tool")
-                });
+                functions.Add(KernelFunctionFactory.CreateFromMethod(
+                    method: (string input) => InvokeToolAsync(baseUrl, tool.Name, input, cancellationToken),
+                    functionName: tool.Name,
+                    description: tool.Description ?? "External MCP tool"));
             }
+
+            kernel.Plugins.AddFromFunctions("ExternalTools", functions);
             
             logger.LogInformation("Successfully registered {Count} MCP tools.", tools.Count);
         }

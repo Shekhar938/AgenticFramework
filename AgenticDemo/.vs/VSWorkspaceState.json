@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Api",
+    "\\Api\\Controllers",
+    "\\Domain",
+    "\\Domain\\Interfaces"
+  ],
+  "SelectedNode": "\\Domain\\Interfaces\\IAgentFactory.cs",
+  "PreviewInSolutionExplorer": false
+}

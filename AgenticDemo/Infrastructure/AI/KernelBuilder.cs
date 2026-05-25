@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Ollama;
-using OllamaSharp;
 
 namespace AgenticDemo.Infrastructure.AI;
 
@@ -28,16 +27,10 @@ public static class KernelFactory
 
         if (!string.IsNullOrWhiteSpace(ollamaEndpoint) && !string.IsNullOrWhiteSpace(ollamaModel))
         {
-#pragma warning disable SKEXP0070
-            // Set the base address on the high-timeout HttpClient and use it to create the OllamaApiClient
             httpClient.BaseAddress = new Uri(ollamaEndpoint);
-            var ollamaClient = new OllamaApiClient(httpClient);
-            ollamaClient.SelectedModel = ollamaModel;
-            
-            builder.Services.AddKeyedSingleton<IChatCompletionService>(
-                serviceKey: null, 
-                implementationInstance: ollamaClient.AsChatCompletionService());
-#pragma warning restore SKEXP0070
+            builder.AddOllamaChatCompletion(
+                modelId: ollamaModel,
+                httpClient: httpClient);
         }
         else
         {
@@ -74,13 +67,13 @@ public static class KernelFactory
 
         var kernel = builder.Build();
 
-        kernel.Plugins.AddFromObject(weatherPlugin, "WeatherPlugin");
-        kernel.Plugins.AddFromObject(emailPlugin, "EmailPlugin");
-        kernel.Plugins.AddFromObject(actionHistoryPlugin, "ActionHistoryPlugin");
-        kernel.Plugins.AddFromObject(searchPlugin, "SearchPlugin");
-        kernel.Plugins.AddFromObject(fileSystemPlugin, "FileSystemPlugin");
-        kernel.Plugins.AddFromObject(systemInfoPlugin, "SystemInfoPlugin");
-        kernel.Plugins.AddFromObject(calculatorPlugin, "CalculatorPlugin");
+        if (weatherPlugin != null) kernel.Plugins.AddFromObject(weatherPlugin, "WeatherPlugin");
+        if (emailPlugin != null) kernel.Plugins.AddFromObject(emailPlugin, "EmailPlugin");
+        if (actionHistoryPlugin != null) kernel.Plugins.AddFromObject(actionHistoryPlugin, "ActionHistoryPlugin");
+        if (searchPlugin != null) kernel.Plugins.AddFromObject(searchPlugin, "SearchPlugin");
+        if (fileSystemPlugin != null) kernel.Plugins.AddFromObject(fileSystemPlugin, "FileSystemPlugin");
+        if (systemInfoPlugin != null) kernel.Plugins.AddFromObject(systemInfoPlugin, "SystemInfoPlugin");
+        if (calculatorPlugin != null) kernel.Plugins.AddFromObject(calculatorPlugin, "CalculatorPlugin");
 
         return kernel;
     }
